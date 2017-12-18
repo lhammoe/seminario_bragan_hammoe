@@ -24,7 +24,7 @@ object TweetsGenerator extends App {
          |  <filtersTrack> words to filter tweets, separated by comma.
          |  <filtersLocations> geo references: longitud,latitud. 2 points that represent a rectangule of the cover area separated by comma.
          |
-         |  TweetsGenerator kafka:9092 stocks /dataset/output/parquet 2000 nba,san antonio\ spurs,ginobilli -123.75,47.872144,-80.332031,25.641526
+         |  TweetsGenerator kafka:9092 tweets /dataset/output/parquet 2000 nba,san\ antonio\ spurs,ginobilli -123.75,47.872144,-80.332031,25.641526
         """.stripMargin)
     System.exit(1)
   }
