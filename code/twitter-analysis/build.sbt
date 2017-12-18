@@ -1,6 +1,6 @@
 import sbt.Keys._
 
-name := "us-stock-analysis"
+name := "twitter-analysis"
 
 version := "0.1"
 
