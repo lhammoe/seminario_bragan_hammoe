@@ -39,9 +39,9 @@ object TwitterStreamingETL extends App {
   jsons.printSchema
 
   val schema = StructType(Seq(
-    StructField("text", StringType, nullable = false),
-    StructField("created_at", TimestampType, nullable = false),
-    StructField("user", StringType, nullable = false)
+    StructField("text", StringType, nullable = false)
+    //,StructField("created_at", TimestampType, nullable = false),
+    //StructField("user", StringType, nullable = false)
   ))
 
   import org.apache.spark.sql.functions._
