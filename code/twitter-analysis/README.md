@@ -12,7 +12,7 @@ $ sbt clean assembly
 
 ```bash
 $ spark-submit \
-  --class "es.arjon.FromCsvToParquet" \
+  --class "ar.bh.TwitterStreamingETL" \
   --master 'local[*]' \
   target/scala-2.11/us-stock-analysis-assembly-0.1.jar
 ```

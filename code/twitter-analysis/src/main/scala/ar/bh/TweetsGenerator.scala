@@ -7,7 +7,7 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.spark.sql.SparkSession
 
 object TweetsGenerator extends App {
-  val rnd = new scala.util.Random(42)
+  //val rnd = new scala.util.Random(42)
   // This is when Dataset ends
   //var tradingBeginOfTime = ZonedDateTime.parse("2017-11-11T10:00:00Z")
 
@@ -54,7 +54,7 @@ object TweetsGenerator extends App {
   val filtersTrack = Array(filtersTrackArg)
   val producer = new KafkaProducer[String, String](props)
 
-  val twitterStream = new TwitterStream(props, propsAuth, outputPath, topic, savingIntervalNumber, filtersTrack,filtersLocations)
+  val twitterStream = new TwitterStream(producer, propsAuth, outputPath, topic, savingIntervalNumber, filtersTrack,filtersLocations)
 
   twitterStream.start()
   try{

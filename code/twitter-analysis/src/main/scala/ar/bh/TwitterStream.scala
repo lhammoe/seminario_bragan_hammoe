@@ -13,8 +13,6 @@ import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.spark.sql.SparkSession
-
-//import ar.BH.TweetsGenerator.{props, topic}
 import org.apache.kafka.clients.producer.KafkaProducer
 
 import scala.collection.JavaConverters._
