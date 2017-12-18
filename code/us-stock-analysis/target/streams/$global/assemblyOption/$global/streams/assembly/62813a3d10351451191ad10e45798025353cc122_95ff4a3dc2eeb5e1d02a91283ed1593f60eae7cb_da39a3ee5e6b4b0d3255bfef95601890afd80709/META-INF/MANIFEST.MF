@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Implementation-Vendor: The Apache Software Foundation
+Implementation-Title: Spark Integration for Kafka 0.10
+Implementation-Version: 2.1.2
+Implementation-Vendor-Id: org.apache.spark
+Built-By: holden
+Build-Jdk: 1.7.0_151
+Specification-Vendor: The Apache Software Foundation
+Specification-Title: Spark Integration for Kafka 0.10
+Created-By: Apache Maven 3.3.9
+Implementation-URL: http://spark.apache.org/
+Specification-Version: 2.1.2
+Archiver-Version: Plexus Archiver
+

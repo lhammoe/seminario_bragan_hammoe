@@ -1,13 +1,14 @@
-# ETL: US stocks analysis
+# ETL: Twitter Analysis
 
+<b>Alumnos:</b>
+<ul><li>Luciano Hammoe</li><li>Pablo E. Bragan</li></ul>
 
-
-### Create a jar containing your application and its deps
+## Crear el jar que contiene la aplicaci&oacute;n y sus dependencias
 ```bash
 $ sbt clean assembly
 ```
 
-### Use spark-submit to run your application
+## Usar spark-submit para correr la aplicaci&oacute;n
 
 ```bash
 $ spark-submit \

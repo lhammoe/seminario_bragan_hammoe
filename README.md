@@ -1,5 +1,7 @@
-# Workshop de Big Data con Apache Spark [🇪🇸]
-Material del Workshopde Big Data
+# Trabajo Pr&aacute;ctico Workshop de Big Data con Apache Spark
+
+<b>Alumnos:</b>
+<ul><li>Luciano Hammoe</li><li>Pablo E. Bragan</li></ul>
 
 ## Contenidos
 * [Levantar el ambiente](#levantar-ambiente)

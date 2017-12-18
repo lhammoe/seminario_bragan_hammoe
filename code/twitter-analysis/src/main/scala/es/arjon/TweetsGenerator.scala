@@ -34,7 +34,7 @@ object TweetsGenerator extends App {
 
   val props = new Properties()
   props.put("bootstrap.servers", brokers)
-  props.put("client.id", "FakeStockPriceGenerator")
+  props.put("client.id", "TweetsGenerator")
   props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
   props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
 
