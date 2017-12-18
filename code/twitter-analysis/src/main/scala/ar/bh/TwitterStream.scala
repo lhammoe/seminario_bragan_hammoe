@@ -123,18 +123,19 @@ class TwitterStream(
 
     def foo: String = line
 
-    println(foo)
+    //println(foo)
     var lastSavingTime = System.currentTimeMillis()
+    println(lastSavingTime)
     val s = new StringBuilder()
     while (line != null && !isStopped) {
       lineno += 1
       line = reader.readLine()
       s.append(line + "\n")
-      //display(s)
-      val now = System.currentTimeMillis()
+      println(s)
+      var now = System.currentTimeMillis()
       if (now - lastSavingTime >= savingInterval) {
-        val file = new File(path, now.toString).getAbsolutePath
-        println("saving to " + file)
+        //val file = new File(path, now.toString).getAbsolutePath
+        //println("saving to " + file)
         //dbutils.fs.put(file, s.toString, true)
         sendToKafka.process(spark, s.toString())
         lastSavingTime = now
