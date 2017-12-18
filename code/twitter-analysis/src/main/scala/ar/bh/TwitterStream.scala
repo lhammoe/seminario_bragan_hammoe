@@ -180,34 +180,7 @@ class TwitterStream(
     }
   }
 
-  object DatasetToParquet {
-    def process(spark: SparkSession, df: DataFrame, destinationFolder: String): Unit = {
-      // https://stackoverflow.com/questions/43731679/how-to-save-a-partitioned-parquet-file-in-spark-2-1
-      df.
-        write.
-        mode("overwrite").
-        partitionBy("year", "month", "day").
-        parquet(destinationFolder)
-    }
-  }
 
-  object DatasetToPostgres {
-
-    def process(spark: SparkSession, df: DataFrame): Unit = {
-      // Write to Postgres
-      val connectionProperties = new java.util.Properties
-      connectionProperties.put("user", "workshop")
-      connectionProperties.put("password", "w0rkzh0p")
-      val jdbcUrl = s"jdbc:postgresql://postgres:5432/workshop"
-
-      df.
-        drop("year", "month", "day"). // drop unused columns
-        write.
-        mode(SaveMode.Append).
-        jdbc(jdbcUrl, "stocks", connectionProperties)
-
-    }
-  }
 
   object sendToKafka {
 

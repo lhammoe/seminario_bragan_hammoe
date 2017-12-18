@@ -67,7 +67,7 @@ object TwitterStreamingETL extends App {
     partitionBy("year", "month", "day", "hour", "minute").
     option("startingOffsets", "earliest").
     option("checkpointLocation", "/dataset/checkpoint").
-    option("path", "/dataset/streaming.parquet").
+    option("path", "/dataset/twitterStreaming.parquet").
     trigger(ProcessingTime("30 seconds")).
     start()
 
