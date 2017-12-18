@@ -10,7 +10,9 @@ $ sbt clean assembly
 
 ## Usar spark-submit para correr la aplicaci&oacute;n
 
-###Argumentos:
+###Obtencion de Tweets y env&iacute;o a Kafka
+
+####Argumentos:
 <ol>
     <li>brokers: lista de uno o m&aacute;s brokers de kafka</li>
     <li>topic: topic de kafka</li>
@@ -22,7 +24,7 @@ $ sbt clean assembly
 
 ```bash
 $ spark-submit \
-  --class "ar.bh.TwitterStreamingETL" \
+  --class "ar.bh.TweetsGenerator" \
   --master 'local[*]' \
   target/scala-2.11/twitter-analysis-assembly-0.1.jar \
   kafka:9092 \

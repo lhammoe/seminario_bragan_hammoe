@@ -70,8 +70,7 @@ object TweetsGenerator extends App {
 
   Thread.sleep(10000)
 
-  twitterStream.stop()
-  producer.close()
-
-  spark.stop()
+//  twitterStream.stop()
+//  producer.close()
+//  spark.stop()
 }
