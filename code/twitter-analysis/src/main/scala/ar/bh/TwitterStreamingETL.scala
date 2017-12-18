@@ -6,14 +6,19 @@ import org.apache.spark.sql.types._
 
 
 object TwitterStreamingETL extends App {
-  if (args.length < 2) {
+  var argumentsSize = 6;
+  if (args.length < argumentsSize) {
     System.err.println(
       s"""
          |Usage: TwitterStreamingETL <brokers> <topics>
          |  <brokers> is a list of one or more Kafka brokers
          |  <topics> is a list of one or more kafka topics to consume from
+         |  <outputPath> path to save tweets
+         |  <savingInterval> seconds to define creation file interval
+         |  <filtersTrack> words to filter tweets, separated by comma.
+         |  <filtersLocations> geo references: longitud,latitud. 2 points that represent a rectangule of the cover area, separated by comma.
          |
-         |  TwitterStreamingETL kafka:9092 tweets
+         |  TweetsGenerator kafka:9092 stocks /dataset/output/parquet 2000 nba,san antonio\ spurs,ginobilli -123.75,47.872144,-80.332031,25.641526
         """.stripMargin)
     System.exit(1)
   }

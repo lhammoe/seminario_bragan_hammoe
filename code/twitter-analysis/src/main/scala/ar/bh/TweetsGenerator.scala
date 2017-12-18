@@ -1,6 +1,6 @@
 package ar.bh
 
-import java.time.ZonedDateTime
+//import java.time.ZonedDateTime
 import java.util.Properties
 
 import org.apache.spark.sql.SparkSession
@@ -8,9 +8,9 @@ import org.apache.spark.sql.SparkSession
 object TweetsGenerator extends App {
   val rnd = new scala.util.Random(42)
   // This is when Dataset ends
-  var tradingBeginOfTime = ZonedDateTime.parse("2017-11-11T10:00:00Z")
+  //var tradingBeginOfTime = ZonedDateTime.parse("2017-11-11T10:00:00Z")
 
-  var argumentsSize = 4;
+  var argumentsSize = 6;
 
   if (args.length < argumentsSize) {
     System.err.println(
@@ -20,11 +20,10 @@ object TweetsGenerator extends App {
          |  <topic> one kafka topic to produce to
          |  <outputPath> path to save tweets
          |  <savingInterval> seconds to define creation file interval
-         |  <filtersTrack> words to filter tweets, separated by commas.
-         |  <filtersLocations> geo references: longitud,latitud. 2 points that represent a rectangule of the cover area.
+         |  <filtersTrack> words to filter tweets, separated by comma.
+         |  <filtersLocations> geo references: longitud,latitud. 2 points that represent a rectangule of the cover area separated by comma.
          |
-         |
-         |  TweetsGenerator kafka:9092 stocks
+         |  TweetsGenerator kafka:9092 stocks /dataset/output/parquet 2000 nba,san antonio\ spurs,ginobilli -123.75,47.872144,-80.332031,25.641526
         """.stripMargin)
     System.exit(1)
   }
