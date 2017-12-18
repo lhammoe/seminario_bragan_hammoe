@@ -6,19 +6,20 @@ import org.apache.spark.sql.types._
 
 
 object TwitterStreamingETL extends App {
-  var argumentsSize = 2;
+  var argumentsSize = 3;
   if (args.length < argumentsSize) {
     System.err.println(
       s"""
          |Usage: TwitterStreamingETL <brokers> <topics>
          |  <brokers> is a list of one or more Kafka brokers
          |  <topics> is a list of one or more kafka topics to consume from
+         |  <path> path to save what it is in kafka
          |  TweetsGenerator kafka:9092 tweets
         """.stripMargin)
     System.exit(1)
   }
 
-  val Array(brokers, topics) = args
+  val Array(brokers, topics, path) = args
   val spark = SparkSession.
     builder.
     appName("Twitter:StreamingETL").
