@@ -19,7 +19,7 @@ $ sbt clean assembly
     <li>path: directorio donde se guardar&aacute; la lectura de tweets</li>
     <li>savingInterval: intervalo de env&iacute;o de tweets a Kafka</li>
     <li>filtersTrack: palabras de filtro para los tweets.</li>
-    <li>filtersLocations: coordenadas longitud,latitud de a par. Es un rectangulo que representa a un area.</li>
+    <li>filtersLocations: coordenadas longitud,latitud de a par. Es un rectangulo que representa a un area. El primer punto es el inferior izquierdo y el segundo el superior derecho.</li>
 </ol>
 
 ```bash
@@ -32,5 +32,5 @@ $ spark-submit \
   /dataset/output/parquet \
   200 \
   nba,san\ antonio\ spurs,ginobilli \
-  -123.75,47.872144,-80.332031,25.641526
+  -117.16,32.69,-66.97,48.98
 ```

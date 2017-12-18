@@ -104,15 +104,17 @@ class TwitterStream(
 
     httpGet = new HttpGet(s"https://stream.twitter.com/1.1/statuses/filter.json?${(requestParams1 ++ requestParams2).map(pair => s"""${pair._1}=${pair._2}""").mkString("&")}")
     httpGet.addHeader("Authorization", authHeader)
-    println("Downloading tweets!")
+    println("Downloading tweets!!")
     val response = httpclient.execute(httpGet)
     val entity = response.getEntity()
     input = entity.getContent()
     //println(entity)
-    //println(input)
+    println("Status Code:")
+    println(response.getStatusLine.getStatusCode)
     if (response.getStatusLine.getStatusCode != 200) {
       throw new RuntimeException(IOUtils.toString(input, StandardCharsets.UTF_8))
     }
+    println("Response OK!")
     isDownloading = true
     val reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))
     //def foo: String = //= Stream.continually(reader.readLine()).takeWhile(_ != null)
@@ -120,7 +122,7 @@ class TwitterStream(
     var line: String = null
     var lineno = 1
     line = reader.readLine()
-
+    println("Linea 1 leida")
     def foo: String = line
 
     //println(foo)
@@ -132,7 +134,7 @@ class TwitterStream(
       line = reader.readLine()
       s.append(line + "\n")
       println(s)
-      var now = System.currentTimeMillis()
+      val now = System.currentTimeMillis()
       if (now - lastSavingTime >= savingInterval) {
         //val file = new File(path, now.toString).getAbsolutePath
         //println("saving to " + file)
@@ -142,6 +144,7 @@ class TwitterStream(
         s.clear()
       }
     }
+    println("lineas leidas"+lineno)
   }
 
   private def generateSignature(data: String): String = {
