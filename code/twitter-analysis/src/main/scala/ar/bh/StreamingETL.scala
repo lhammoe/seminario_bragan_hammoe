@@ -1,4 +1,4 @@
-package es.arjon
+package ar.bh
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.streaming.{OutputMode, ProcessingTime}
