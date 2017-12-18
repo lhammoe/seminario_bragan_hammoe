@@ -176,7 +176,7 @@ class TwitterStream(
       case _: Throwable =>
     }
   }
-
+  
   object sendToKafka {
 
     def process(spark: SparkSession, tweet: String): Unit = {
