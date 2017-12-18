@@ -34,6 +34,7 @@ object TwitterStreamingETL extends App {
     load()
   //    option("startingOffsets", "earliest").
 
+  jsons.
   jsons.printSchema
 
   val schema = StructType(Seq(
@@ -45,9 +46,9 @@ object TwitterStreamingETL extends App {
   import org.apache.spark.sql.functions._
   import spark.implicits._
 
-  val jsonOptions = Map("timestampFormat" -> "yyyy-MM-dd'T'HH:mm'Z'")
+  //val jsonOptions = Map("timestampFormat" -> "yyyy-MM-dd'T'HH:mm'Z'")
   val tweetsJson = jsons.
-    select(from_json($"value".cast("string"), schema, jsonOptions).as("values"))
+    select(from_json($"value".cast("string"), schema).as("values"))
 
   tweetsJson.printSchema
 
@@ -57,14 +58,15 @@ object TwitterStreamingETL extends App {
 
   // Write to Parquet
   tweets.
-    withColumn("year", year($"timestamp")).
-    withColumn("month", month($"timestamp")).
-    withColumn("day", dayofmonth($"timestamp")).
-    withColumn("hour", hour($"timestamp")).
-    withColumn("minute", minute($"timestamp")).
+    /*withColumn("year", year($"created_at")).
+    withColumn("month", month($"created_at")).
+    withColumn("day", dayofmonth($"created_at")).
+    withColumn("hour", hour($"created_at")).
+    withColumn("minute", minute($"created_at")).*/
+    withColumn("texto", $"text").
     writeStream.
     format("parquet").
-    partitionBy("year", "month", "day", "hour", "minute").
+    //partitionBy("year", "month", "day", "hour", "minute").
     option("startingOffsets", "earliest").
     option("checkpointLocation", "/dataset/checkpoint").
     option("path", "/dataset/twitterStreaming.parquet").
