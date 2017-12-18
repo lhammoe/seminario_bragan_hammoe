@@ -35,8 +35,24 @@ $ spark-submit \
   -117.16,32.69,-66.97,48.98
 ```
 Se ejecutar&aacute; un proceso que no tiene fin y mientras se llenará la cola de Kafka.
+<br>Puede correrlo como background. Por ejemplo:
+```bash
+$ spark-submit \
+  --class "ar.bh.TweetsGenerator" \
+  --master 'spark://master:7077' \
+  target/scala-2.11/twitter-analysis-assembly-0.1.jar \
+  kafka:9092 \
+  tweets \
+  200 \
+  nba,spurs,ginobilli \
+  -117.16,32.69,-66.97,48.98 \
+  &
+```
 
 ####ETL sobre Kafka
+
+Para guardar los tweets le&iacute;dos en la base de datos y en parquet
+se debe ejecutar el siguiente comando:
 
 #####Argumentos:
 <ol>
@@ -53,4 +69,8 @@ $ spark-submit \
   kafka:9092 \
   tweets \
   dataset/output/parquet
+```
+#####Aclaraci&oacute;n
+Es necesario correr el comando de obtenci&oacute;n de Tweets previo a este comando.
+Si no lo ejecut&oacute; en background deber&aacute; abrir otra consola y volver a conectarse a docker.
 
