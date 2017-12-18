@@ -24,7 +24,7 @@ $ sbt clean assembly
 $ spark-submit \
   --class "ar.bh.TwitterStreamingETL" \
   --master 'local[*]' \
-  target/scala-2.11/us-stock-analysis-assembly-0.1.jar \
+  target/scala-2.11/twitter-analysis-assembly-0.1.jar \
   kafka:9092 \
   tweets \
   /dataset/output/parquet \
