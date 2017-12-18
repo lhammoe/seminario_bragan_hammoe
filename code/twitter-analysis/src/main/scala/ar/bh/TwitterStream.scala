@@ -28,6 +28,7 @@ class TwitterStream(
                      filtersLocations: String) {
 
   private val threadName = "tweet-downloader"
+  val spark = SparkSession.builder.appName("Tweets:ETL").getOrCreate()
   val producer = new KafkaProducer[String, String](propsKafka)
 
   {
