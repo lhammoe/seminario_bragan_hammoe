@@ -16,7 +16,7 @@ object TweetsGenerator extends App {
   if (args.length < argumentsSize) {
     System.err.println(
       s"""
-         |Usage: TweetsGenerator <brokers> <topics>
+         |Usage: TweetsGenerator <brokers> <topics> <outputPath> <savingInterval> <filtersTrack> <filtersLocations>
          |  <brokers> is a list of one or more Kafka brokers
          |  <topic> one kafka topic to produce to
          |  <outputPath> path to save tweets
