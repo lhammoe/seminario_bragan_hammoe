@@ -14,7 +14,7 @@ object TwitterStreamingETL extends App {
          |  <brokers> is a list of one or more Kafka brokers
          |  <topics> is a list of one or more kafka topics to consume from
          |  <path> path to save what it is in kafka
-         |  TweetsGenerator kafka:9092 tweets
+         |  TwitterStreamingETL kafka:9092 tweets /dataset/twitter
         """.stripMargin)
     System.exit(1)
   }
@@ -55,6 +55,7 @@ object TwitterStreamingETL extends App {
   val tweets = tweetsJson.select($"values.*")
 
   tweets.printSchema
+  println(tweets.withColumn("texto", $"text"))
 
   // Write to Parquet
   tweets.
