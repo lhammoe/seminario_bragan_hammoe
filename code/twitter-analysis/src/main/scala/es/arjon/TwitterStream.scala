@@ -12,7 +12,8 @@ import ar.BH.TweetsGenerator.{props, topic}
 import scala.collection.JavaConverters._
 
 class TwitterStream(
-                     propsKaProperties,
+                     propsKafka: Properties,
+                     propsAuth: Properties,
                      path: String,
                      savingInterval: Long,
                      filtersTrack: Array[String],
@@ -21,7 +22,7 @@ class TwitterStream(
                      filtersHashtags: String) {
 
   private val threadName = "tweet-downloader"
-  val producer = new KafkaProducer[String, String](props)
+  val producer = new KafkaProducer[String, String](propsKafka)
 
   {
     // Throw an exception if there is already an active stream.
@@ -76,11 +77,11 @@ class TwitterStream(
     val oauthTimestamp = timestamp.toString
 
     val oauthHeaderParams = List(
-      "oauth_consumer_key" -> encode(consumerKey),
+      "oauth_consumer_key" -> encode(propsAuth.getProperty("consumerKey")),
       "oauth_signature_method" -> encode("HMAC-SHA1"),
       "oauth_timestamp" -> encode(oauthTimestamp),
       "oauth_nonce" -> encode(oauthNonce),
-      "oauth_token" -> encode(accessToken),
+      "oauth_token" -> encode(propsAuth.getProperty("accessToken")),
       "oauth_version" -> "1.0"
     )
     // Parameters used by requests
@@ -140,7 +141,7 @@ class TwitterStream(
 
   private def generateSignature(data: String): String = {
     val mac = Mac.getInstance("HmacSHA1")
-    val oauthSignature = encode(consumerSecret) + "&" + encode(accessTokenSecret)
+    val oauthSignature = encode(propsAuth.getProperty("consumerSecret")) + "&" + encode(propsAuth.getProperty("accessTokenSecret"))
     val spec = new SecretKeySpec(oauthSignature.getBytes, "HmacSHA1")
     mac.init(spec)
     val byteHMAC = mac.doFinal(data.getBytes)
@@ -205,11 +206,8 @@ class TwitterStream(
 
     def process(spark: SparkSession, tweet: String): Unit = {
 
-
       val data = new ProducerRecord[String, String](topic, null, tweet)
-
       producer.send(data)
-
       producer.close()
 
     }

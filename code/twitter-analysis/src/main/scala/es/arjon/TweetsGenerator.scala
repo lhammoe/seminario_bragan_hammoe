@@ -27,10 +27,7 @@ object TweetsGenerator extends App {
        |Consuming tweets $brokers/$topic
     """.stripMargin)
 
-  val spark = SparkSession.
-    builder.
-    appName("Tweets:ETL").
-    getOrCreate()
+  val spark = SparkSession.builder.appName("Tweets:ETL").getOrCreate()
 
   val props = new Properties()
   props.put("bootstrap.servers", brokers)
@@ -44,12 +41,7 @@ object TweetsGenerator extends App {
   propsAuth.put("accessToken", "859902580994052096-lSzW6HMF0KYH3bVWiVm0EjeImoSSKlj")
   propsAuth.put("accessTokenSecret", "NdXq3sR05mm05QoMhRZOe6Z3cc8O2o4vcH0z4KRqNhVkF")
 
-
-
-
-
-
-  val twitterStream = new TwitterStream(consumerKey, consumerSecret, accessToken, accessTokenSecret, path, savingInterval, filtersTrack,filtersLocations,filtersLanguages,filtersHashtags)
+  val twitterStream = new TwitterStream(props, propsAuth, path, savingInterval, filtersTrack,filtersLocations,filtersLanguages,filtersHashtags)
 
   twitterStream.start()
   try{
