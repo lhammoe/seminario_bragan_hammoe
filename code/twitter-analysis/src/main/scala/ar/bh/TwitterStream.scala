@@ -182,8 +182,9 @@ class TwitterStream(
   object sendToKafka {
 
     def process(spark: SparkSession, tweet: String): Unit = {
-
+      println("Escribiendo en topic " ++ kafkaTopic)
       val data = new ProducerRecord[String, String](kafkaTopic, null, tweet)
+      println(data.toString)
       producer.send(data)
     }
   }
