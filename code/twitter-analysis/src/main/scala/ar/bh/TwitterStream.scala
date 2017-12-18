@@ -7,7 +7,12 @@ import java.util.{Base64, Properties}
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-import ar.BH.TweetsGenerator.{props, topic}
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.CloseableHttpClient
+import org.apache.http.impl.client.HttpClients
+
+//import ar.BH.TweetsGenerator.{props, topic}
+import org.apache.kafka.clients.producer.KafkaProducer
 
 import scala.collection.JavaConverters._
 
@@ -17,9 +22,7 @@ class TwitterStream(
                      path: String,
                      savingInterval: Long,
                      filtersTrack: Array[String],
-                     filtersLocations: String,
-                     filtersLanguages: String,
-                     filtersHashtags: String) {
+                     filtersLocations: String) {
 
   private val threadName = "tweet-downloader"
   val producer = new KafkaProducer[String, String](propsKafka)
@@ -116,7 +119,9 @@ class TwitterStream(
     var line: String = null
     var lineno = 1
     line = reader.readLine()
+
     def foo: String = line
+
     println(foo)
     var lastSavingTime = System.currentTimeMillis()
     val s = new StringBuilder()
@@ -131,7 +136,7 @@ class TwitterStream(
           val file = new File(path, now.toString).getAbsolutePath
           println("saving to " + file)
           dbutils.fs.put(file, s.toString, true)
-          sendToKafka.process(spark,s.toString())
+          sendToKafka.process(spark, s.toString())
           lastSavingTime = now
           s.clear()
         }
@@ -212,3 +217,5 @@ class TwitterStream(
 
     }
   }
+
+}

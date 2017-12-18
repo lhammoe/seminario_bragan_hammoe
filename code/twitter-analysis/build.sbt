@@ -14,7 +14,8 @@ libraryDependencies ++= Seq(
 
   "org.apache.spark" %% "spark-streaming" % "2.1.2" % "provided",
   "org.apache.spark" %% "spark-streaming-kafka-0-10" % "2.1.2",
-  "org.apache.spark" %% "spark-sql-kafka-0-10" % "2.1.2"
+  "org.apache.spark" %% "spark-sql-kafka-0-10" % "2.1.2",
+  "org.apache.httpcomponents" % "httpclient" % "4.5.4"
 )
 
 assemblyMergeStrategy in assembly := {

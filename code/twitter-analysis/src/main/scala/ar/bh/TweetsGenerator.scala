@@ -8,19 +8,26 @@ object TweetsGenerator extends App {
   // This is when Dataset ends
   var tradingBeginOfTime = ZonedDateTime.parse("2017-11-11T10:00:00Z")
 
-  if (args.length < 2) {
+  var argumentsSize = 4;
+
+  if (args.length < argumentsSize) {
     System.err.println(
       s"""
          |Usage: TweetsGenerator <brokers> <topics>
          |  <brokers> is a list of one or more Kafka brokers
          |  <topic> one kafka topic to produce to
+         |  <outputPath> path to save tweets
+         |  <savingInterval> seconds to define creation file interval
+         |  <filtersTrack> words to filter tweets, separated by commas.
+         |  <filtersLocations> geo references: longitud,latitud. 2 points that represent a rectangule of the cover area.
+         |
          |
          |  TweetsGenerator kafka:9092 stocks
         """.stripMargin)
     System.exit(1)
   }
 
-  val Array(brokers, topic) = args
+  val Array(brokers, topic, outputPath, savingInterval, filtersTrackArg, filtersLocations) = args
 
   println(
     s"""
@@ -41,7 +48,10 @@ object TweetsGenerator extends App {
   propsAuth.put("accessToken", "859902580994052096-lSzW6HMF0KYH3bVWiVm0EjeImoSSKlj")
   propsAuth.put("accessTokenSecret", "NdXq3sR05mm05QoMhRZOe6Z3cc8O2o4vcH0z4KRqNhVkF")
 
-  val twitterStream = new TwitterStream(props, propsAuth, path, savingInterval, filtersTrack,filtersLocations,filtersLanguages,filtersHashtags)
+  val savingIntervalNumber = savingInterval.toLong
+  val filtersTrack = Array(filtersTrackArg)
+
+  val twitterStream = new TwitterStream(props, propsAuth, outputPath, savingIntervalNumber, filtersTrack,filtersLocations)
 
   twitterStream.start()
   try{
