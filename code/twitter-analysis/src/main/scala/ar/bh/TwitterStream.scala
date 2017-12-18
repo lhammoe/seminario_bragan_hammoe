@@ -20,7 +20,6 @@ import scala.collection.JavaConverters._
 class TwitterStream(
                      producer: KafkaProducer[String,String],
                      propsAuth: Properties,
-                     path: String,
                      kafkaTopic: String,
                      savingInterval: Long,
                      filtersTrack: Array[String],
@@ -101,7 +100,7 @@ class TwitterStream(
     val signature = generateSignature(oauthBaseString)
     val oauthFinalHeaderParams = oauthHeaderParams ::: List("oauth_signature" -> encode(signature))
     val authHeader = "OAuth " + ((oauthFinalHeaderParams.sortBy(_._1).map(pair => s"""${pair._1}="${pair._2}"""")).mkString(", "))
-
+    println(s"https://stream.twitter.com/1.1/statuses/filter.json?${(requestParams1 ++ requestParams2).map(pair => s"""${pair._1}=${pair._2}""").mkString("&")}")
     httpGet = new HttpGet(s"https://stream.twitter.com/1.1/statuses/filter.json?${(requestParams1 ++ requestParams2).map(pair => s"""${pair._1}=${pair._2}""").mkString("&")}")
     httpGet.addHeader("Authorization", authHeader)
     println("Downloading tweets!!")
@@ -127,13 +126,12 @@ class TwitterStream(
 
     //println(foo)
     var lastSavingTime = System.currentTimeMillis()
-    println(lastSavingTime)
     val s = new StringBuilder()
     while (line != null && !isStopped) {
       lineno += 1
       line = reader.readLine()
       s.append(line + "\n")
-      println(s)
+      //println(s)
       val now = System.currentTimeMillis()
       if (now - lastSavingTime >= savingInterval) {
         //val file = new File(path, now.toString).getAbsolutePath
