@@ -3,6 +3,7 @@ package ar.bh
 //import java.time.ZonedDateTime
 import java.util.Properties
 
+import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.spark.sql.SparkSession
 
 object TweetsGenerator extends App {
@@ -51,6 +52,7 @@ object TweetsGenerator extends App {
 
   val savingIntervalNumber = savingInterval.toLong
   val filtersTrack = Array(filtersTrackArg)
+  val producer = new KafkaProducer[String, String](props)
 
   val twitterStream = new TwitterStream(props, propsAuth, outputPath, topic, savingIntervalNumber, filtersTrack,filtersLocations)
 
@@ -69,6 +71,7 @@ object TweetsGenerator extends App {
   Thread.sleep(10000)
 
   twitterStream.stop()
+  producer.close()
 
   spark.stop()
 }
