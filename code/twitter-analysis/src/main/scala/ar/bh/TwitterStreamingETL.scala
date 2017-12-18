@@ -5,15 +5,15 @@ import org.apache.spark.sql.streaming.{OutputMode, ProcessingTime}
 import org.apache.spark.sql.types._
 
 
-object StreamingETL extends App {
+object TwitterStreamingETL extends App {
   if (args.length < 2) {
     System.err.println(
       s"""
-         |Usage: StreamingETL <brokers> <topics>
+         |Usage: TwitterStreamingETL <brokers> <topics>
          |  <brokers> is a list of one or more Kafka brokers
          |  <topics> is a list of one or more kafka topics to consume from
          |
-         |  StreamingETL kafka:9092 tweets
+         |  TwitterStreamingETL kafka:9092 tweets
         """.stripMargin)
     System.exit(1)
   }
@@ -76,7 +76,7 @@ object StreamingETL extends App {
   //
 
   // Using as an ordinary DF
-  val avgPricing = stocks.
+  /*val avgPricing = stocks.
     groupBy($"symbol").
     agg(avg($"price").as("avg_price"))
 
@@ -85,7 +85,7 @@ object StreamingETL extends App {
     outputMode(OutputMode.Complete).
     format("console").
     trigger(ProcessingTime("10 seconds")).
-    start()
+    start()*/
 
   // Have all the aggregates in an in-memory table
   //  avgPricing
