@@ -35,7 +35,6 @@ object TwitterStreamingETL extends App {
     load()
   //    option("startingOffsets", "earliest").
 
-  jsons.
   jsons.printSchema
 
   val schema = StructType(Seq(
