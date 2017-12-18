@@ -23,6 +23,7 @@ class TwitterStream(
                      propsKafka: Properties,
                      propsAuth: Properties,
                      path: String,
+                     kafkaTopic: String,
                      savingInterval: Long,
                      filtersTrack: Array[String],
                      filtersLocations: String) {
@@ -212,7 +213,7 @@ class TwitterStream(
 
     def process(spark: SparkSession, tweet: String): Unit = {
 
-      val data = new ProducerRecord[String, String](topic, null, tweet)
+      val data = new ProducerRecord[String, String](kafkaTopic, null, tweet)
       producer.send(data)
       producer.close()
 

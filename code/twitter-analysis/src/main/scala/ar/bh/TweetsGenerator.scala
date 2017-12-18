@@ -53,7 +53,7 @@ object TweetsGenerator extends App {
   val savingIntervalNumber = savingInterval.toLong
   val filtersTrack = Array(filtersTrackArg)
 
-  val twitterStream = new TwitterStream(props, propsAuth, outputPath, savingIntervalNumber, filtersTrack,filtersLocations)
+  val twitterStream = new TwitterStream(props, propsAuth, outputPath, topic, savingIntervalNumber, filtersTrack,filtersLocations)
 
   twitterStream.start()
   try{
