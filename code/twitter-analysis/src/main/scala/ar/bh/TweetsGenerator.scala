@@ -51,7 +51,7 @@ object TweetsGenerator extends App {
   propsAuth.put("accessTokenSecret", "NdXq3sR05mm05QoMhRZOe6Z3cc8O2o4vcH0z4KRqNhVkF")
 
   val savingIntervalNumber = savingInterval.toLong
-  val filtersTrack = Array(filtersTrackArg)
+  val filtersTrack = Array(filtersTrackArg.split(","))
   val producer = new KafkaProducer[String, String](props)
 
   val twitterStream = new TwitterStream(producer, propsAuth, outputPath, topic, savingIntervalNumber, filtersTrack,filtersLocations)

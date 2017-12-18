@@ -25,12 +25,12 @@ $ sbt clean assembly
 ```bash
 $ spark-submit \
   --class "ar.bh.TweetsGenerator" \
-  --master 'local[*]' \
+  --master 'spark://master:7077' \
   target/scala-2.11/twitter-analysis-assembly-0.1.jar \
   kafka:9092 \
   tweets \
   /dataset/output/parquet \
   200 \
-  nba,san antonio\ spurs,ginobilli \
+  nba,san\ antonio\ spurs,ginobilli \
   -123.75,47.872144,-80.332031,25.641526
 ```
