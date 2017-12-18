@@ -3,6 +3,8 @@ package ar.bh
 import java.time.ZonedDateTime
 import java.util.Properties
 
+import org.apache.spark.sql.SparkSession
+
 object TweetsGenerator extends App {
   val rnd = new scala.util.Random(42)
   // This is when Dataset ends

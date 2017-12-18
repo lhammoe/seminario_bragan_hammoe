@@ -7,9 +7,12 @@ import java.util.{Base64, Properties}
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
+import org.apache.commons.io.IOUtils
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
+import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 
 //import ar.BH.TweetsGenerator.{props, topic}
 import org.apache.kafka.clients.producer.KafkaProducer
@@ -91,9 +94,8 @@ class TwitterStream(
     // See https://dev.twitter.com/streaming/overview/request-parameters for a complete list of available parameters.
     val requestParams1 = List("track" -> encode(filtersTrack.mkString(",")))
     val requestParams2 = List("locations" -> encode(filtersLocations))
-    val requestParams3 = List("language" -> encode(filtersLanguages))
 
-    val parameters = (oauthHeaderParams ++ requestParams1 ++ requestParams2 ++ requestParams3).sortBy(_._1).map(pair => s"""${pair._1}=${pair._2}""").mkString("&")
+    val parameters = (oauthHeaderParams ++ requestParams1 ++ requestParams2).sortBy(_._1).map(pair => s"""${pair._1}=${pair._2}""").mkString("&")
     println(parameters)
     val base = s"GET&${encode(url)}&${encode(parameters)}"
     val oauthBaseString: String = base.toString
@@ -101,7 +103,7 @@ class TwitterStream(
     val oauthFinalHeaderParams = oauthHeaderParams ::: List("oauth_signature" -> encode(signature))
     val authHeader = "OAuth " + ((oauthFinalHeaderParams.sortBy(_._1).map(pair => s"""${pair._1}="${pair._2}"""")).mkString(", "))
 
-    httpGet = new HttpGet(s"https://stream.twitter.com/1.1/statuses/filter.json?${(requestParams1 ++ requestParams2 ++ requestParams3).map(pair => s"""${pair._1}=${pair._2}""").mkString("&")}")
+    httpGet = new HttpGet(s"https://stream.twitter.com/1.1/statuses/filter.json?${(requestParams1 ++ requestParams2).map(pair => s"""${pair._1}=${pair._2}""").mkString("&")}")
     httpGet.addHeader("Authorization", authHeader)
     println("Downloading tweets!")
     val response = httpclient.execute(httpGet)
@@ -128,18 +130,16 @@ class TwitterStream(
     while (line != null && !isStopped) {
       lineno += 1
       line = reader.readLine()
-      if ((filtersHashtags == "si" && line.contains("hashtags\":[{")) || (filtersHashtags == "no")) {
-        s.append(line + "\n")
-        //display(s)
-        val now = System.currentTimeMillis()
-        if (now - lastSavingTime >= savingInterval) {
-          val file = new File(path, now.toString).getAbsolutePath
-          println("saving to " + file)
-          dbutils.fs.put(file, s.toString, true)
-          sendToKafka.process(spark, s.toString())
-          lastSavingTime = now
-          s.clear()
-        }
+      s.append(line + "\n")
+      //display(s)
+      val now = System.currentTimeMillis()
+      if (now - lastSavingTime >= savingInterval) {
+        val file = new File(path, now.toString).getAbsolutePath
+        println("saving to " + file)
+        //dbutils.fs.put(file, s.toString, true)
+        sendToKafka.process(spark, s.toString())
+        lastSavingTime = now
+        s.clear()
       }
     }
   }
