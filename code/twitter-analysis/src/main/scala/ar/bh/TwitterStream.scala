@@ -1,6 +1,6 @@
 package ar.bh
 
-import java.io.{BufferedReader, File, FileNotFoundException, InputStream, InputStreamReader}
+import java.io.{BufferedReader, File, InputStream, InputStreamReader}
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.{Base64, Properties}
@@ -12,7 +12,7 @@ import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import org.apache.kafka.clients.producer.ProducerRecord
-import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
+import org.apache.spark.sql.SparkSession
 
 //import ar.BH.TweetsGenerator.{props, topic}
 import org.apache.kafka.clients.producer.KafkaProducer
@@ -20,7 +20,7 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import scala.collection.JavaConverters._
 
 class TwitterStream(
-                     propsKafka: Properties,
+                     producer: KafkaProducer[String,String],
                      propsAuth: Properties,
                      path: String,
                      kafkaTopic: String,
@@ -30,7 +30,6 @@ class TwitterStream(
 
   private val threadName = "tweet-downloader"
   val spark = SparkSession.builder.appName("Tweets:ETL").getOrCreate()
-  val producer = new KafkaProducer[String, String](propsKafka)
 
   {
     // Throw an exception if there is already an active stream.
@@ -179,17 +178,13 @@ class TwitterStream(
       case _: Throwable =>
     }
   }
-
-
-
+  
   object sendToKafka {
 
     def process(spark: SparkSession, tweet: String): Unit = {
 
       val data = new ProducerRecord[String, String](kafkaTopic, null, tweet)
       producer.send(data)
-      producer.close()
-
     }
   }
 
