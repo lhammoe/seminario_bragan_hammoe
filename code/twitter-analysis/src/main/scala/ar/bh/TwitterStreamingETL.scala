@@ -22,8 +22,7 @@ object TwitterStreamingETL extends App {
   val Array(brokers, topics, path) = args
   val spark = SparkSession.
     builder.
-    //appName("Twitter:StreamingETL").
-    appName("Tweets:ETL").
+    appName("Twitter:StreamingETL").
     getOrCreate()
 
   // Create DataSet representing the stream of input lines from kafka

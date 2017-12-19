@@ -121,28 +121,36 @@ class TwitterStream(
     var line: String = null
     var lineno = 1
     line = reader.readLine()
-    println("Linea 1 leida")
-    def foo: String = line
+//    println(line)
+//    println("Linea 1 leida")
 
-    //println(foo)
-    var lastSavingTime = System.currentTimeMillis()
-    val s = new StringBuilder()
+//    val s = new StringBuilder()
+    val now = System.currentTimeMillis()
+
     while (line != null && !isStopped) {
-      lineno += 1
+      sendToKafka.process(spark, line)
       line = reader.readLine()
-      s.append(line + "\n")
+      lineno += 1
+      //println(line)
+//      s.append(line + "\n")
       //println(s)
-      val now = System.currentTimeMillis()
-      if (now - lastSavingTime >= savingInterval) {
-        //val file = new File(path, now.toString).getAbsolutePath
-        //println("saving to " + file)
-        //dbutils.fs.put(file, s.toString, true)
-        sendToKafka.process(spark, s.toString())
-        lastSavingTime = now
-        s.clear()
-      }
+//      val now = System.currentTimeMillis()
+      val lastSavingTime = System.currentTimeMillis()
+      println(lastSavingTime - now)
+      if (lastSavingTime - now >= savingInterval) {
+        line = null // para que corte
+        println("End Downloading Tweets!!")
+      }//nueva llave
+//        val file = new File(path, now.toString).getAbsolutePath
+//        println("saving to " + file)
+//        dbutils.fs.put(file, s.toString, true)
+//        sendToKafka.process(spark, s.toString())
+//        sendToKafka.process(spark, line)
+//        lastSavingTime = now
+//        s.clear()
+//      }
     }
-    println("lineas leidas"+lineno)
+    println("tweets leidos "+lineno)
   }
 
   private def generateSignature(data: String): String = {
