@@ -38,13 +38,65 @@ object TwitterStreamingETL extends App {
   jsons.printSchema
 
   val schema = StructType(Seq(
-    StructField("text", StringType, nullable = false)
-    ,StructField("created_at", TimestampType, nullable = false)
-    //,StructField("user", StringType, nullable = false)
+    StructField("contributors", StringType, nullable = true)
+    ,StructField("created_at", TimestampType, nullable = true)
+    ,StructField("entities", StructType(Array(
+                                          StructField("hashtags",StructType(Array(StructField("element",StructType(
+                                            Array(StructField("text",StringType,nullable =true))
+                                          ),nullable = true)))))),nullable=true)
+    ,StructField("geo", StructType(Array(
+      StructField("coordinates",StructType(
+        Array(
+          StructField("element", DoubleType, nullable = true)
+        )),nullable = true)
+      ,StructField("type", StringType,nullable = true)
+      ))
+    )
+    ,StructField("id", LongType, nullable = true)
+    ,StructField("id_str", StringType, nullable = true)
+    ,StructField("in_reply_to_screen_name", StringType, nullable = true)
+    ,StructField("in_reply_to_user_id", LongType, nullable = true)
+    ,StructField("in_reply_to_user_id_str", StringType, nullable = true)
+    ,StructField("lang", StringType, nullable = true)
+    ,StructField("place", StructType(
+      Seq(
+        StructField("country",StringType,nullable = true)
+        ,StructField("country_code",StringType, nullable = true)
+        ,StructField("full_name",StringType, nullable = true)
+        ,StructField("id",StringType, nullable = true)
+        ,StructField("name",StringType, nullable = true)
+        ,StructField("place_type",StringType, nullable = true)
+        ,StructField("url",StringType, nullable = true)
+      )
+    ), nullable = true)
+    ,StructField("reply_count", LongType, nullable = true)
+    ,StructField("retweet_count", LongType, nullable = true)
+    ,StructField("retweeted", BooleanType, nullable = true)
+    ,StructField("source", StringType, nullable = true)
+    ,StructField("text", StringType, nullable = true)
+    ,StructField("user", StructType(
+      Seq(
+        StructField("created_at", TimestampType, nullable = true)
+        ,StructField("description",StringType, nullable = true)
+        ,StructField("followers_count", LongType, nullable = true)
+        ,StructField("friends_count", LongType, nullable = true)
+        ,StructField("geo_enabled", BooleanType, nullable = true)
+        ,StructField("id",LongType, nullable = true)
+        ,StructField("lang",StringType, nullable = true)
+        ,StructField("location",StringType, nullable = true)
+        ,StructField("name",StringType, nullable = true)
+        ,StructField("screen_name",StringType, nullable = true)
+        ,StructField("time_zone",StringType, nullable = true)
+        ,StructField("utc_offset",LongType, nullable = true)
+      )
+    ), nullable = true)
+
   ))
 
   import org.apache.spark.sql.functions._
   import spark.implicits._
+
+  jsons.select($"value").printSchema()
 
   val jsonOptions = Map("timestampFormat" -> "EEE MMM dd HH:mm:ss Z yyyy")
   val tweetsJson = jsons.
@@ -70,7 +122,7 @@ object TwitterStreamingETL extends App {
     option("startingOffsets", "earliest").
     option("checkpointLocation", "/dataset/checkpoint").
     option("path", path).
-    trigger(ProcessingTime("200 seconds")).
+    trigger(ProcessingTime("30 seconds")).
     start()
 
   //Thread.sleep(300000)
@@ -102,4 +154,5 @@ object TwitterStreamingETL extends App {
   //  spark.sql("select * from avgPricing").show()   // interactively query in-memory table
 
   /*query.awaitTermination()*/
+  Thread.sleep(3000)
 }
