@@ -123,7 +123,17 @@ object TwitterStreamingETL extends App {
     option("checkpointLocation", "/dataset/checkpoint").
     option("path", path).
     trigger(ProcessingTime("30 seconds")).
-    start()
+    start().awaitTermination()
+
+  val locationCount = tweets.groupBy($"user.location").agg(count($"user.location").as("location_count"))
+
+  val query = locationCount.writeStream.
+                outputMode(OutputMode.Complete)
+                .format("console")
+                .trigger(ProcessingTime("10 seconds"))
+                .start()
+
+  query.awaitTermination()
 
   //Thread.sleep(300000)
 
