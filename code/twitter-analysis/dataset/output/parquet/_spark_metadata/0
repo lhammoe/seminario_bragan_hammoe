@@ -1,0 +1,2 @@
+v1
+{"path":"file:///opt/spark-2.1.2-bin-hadoop2.7/work/app-20171218232714-0027/0/dataset/output/parquet/part-00000-3b90315f-21ce-45d9-8787-d7489841c065.snappy.parquet","size":342,"isDir":false,"modificationTime":1513639671000,"blockReplication":1,"blockSize":33554432,"action":"add"}

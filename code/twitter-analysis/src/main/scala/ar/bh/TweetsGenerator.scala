@@ -69,9 +69,11 @@ object TweetsGenerator extends App {
     case e: Exception => twitterStream.stop()
   }
 
-  Thread.sleep(10000)
+  Thread.sleep(30000)
 
-//  twitterStream.stop()
-//  producer.close()
-//  spark.stop()
+
+
+  twitterStream.stop()
+  producer.close()
+  spark.stop()
 }

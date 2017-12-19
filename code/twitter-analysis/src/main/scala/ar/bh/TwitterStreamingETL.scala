@@ -74,6 +74,8 @@ object TwitterStreamingETL extends App {
     trigger(ProcessingTime("30 seconds")).
     start()
 
+  //Thread.sleep(300000)
+
   // There is no JDBC sink for now!
   // https://databricks.com/blog/2017/04/04/real-time-end-to-end-integration-with-apache-kafka-in-apache-sparks-structured-streaming.html
   //
