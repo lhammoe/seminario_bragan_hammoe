@@ -1,7 +1,8 @@
 # Trabajo Pr&aacute;ctico Workshop de Big Data con Apache Spark
 
 <b>Alumnos:</b>
-<ul><li>Luciano Hammoe</li><li>Pablo E. Bragan</li></ul>
+<ul><li>Luciano Hammoe</li><li>Pablo E. Bragan</li><li>Mariano Greco</li>
+</ul>
 
 ## Contenidos
 * [Levantar el ambiente](#levantar-ambiente)
