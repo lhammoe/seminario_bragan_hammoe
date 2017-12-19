@@ -14,7 +14,7 @@
 El workshop simula una instalación de producción utilizando container de Docker.
 [docker-compose.yml](docker-compose.yml) contiene las definiciones y configuraciones para esos servicios y sus respectivas UIs:
 
-* Apache Spark: [Spark Master UI](http://localhost:8080) | [Job Progress](http://localhost:4040)
+* Apache Spark: [Spark Master UI](http://localhost:8085) | [Job Progress](http://localhost:4040)
 * ~~Apache Zeppelin: [UI](http://localhost:3000)~~
 * Apache Kafka:
 * Postgres:
@@ -42,7 +42,7 @@ val file = sc.textFile("/dataset/yahoo-symbols-201709.csv")
 file.count
 file.take(10).foreach(println)
 ```
-Acceder a http://localhost:8080 y http://localhost:4040 para ver la SPARK-UI
+Acceder a http://localhost:8085 y http://localhost:4040 para ver la SPARK-UI
 
 # Siga leyendo
 * [Batch Processing](README-batch.md)
