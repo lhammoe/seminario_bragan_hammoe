@@ -16,6 +16,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.kafka.clients.producer.KafkaProducer
 
 import scala.collection.JavaConverters._
+import scala.util.parsing.json.JSON
 
 class TwitterStream(
                      producer: KafkaProducer[String,String],
@@ -183,7 +184,10 @@ class TwitterStream(
 
     def process(spark: SparkSession, tweet: String): Unit = {
       println("Escribiendo en topic " ++ kafkaTopic)
+      val parsed = JSON.parseFull(tweet)
+      parsed.printSchema
       val data = new ProducerRecord[String, String](kafkaTopic, null, tweet)
+
       println(data.toString)
       producer.send(data)
     }
