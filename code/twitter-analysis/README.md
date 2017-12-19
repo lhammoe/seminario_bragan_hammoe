@@ -1,7 +1,9 @@
 # ETL: Twitter Analysis
 
 <b>Alumnos:</b>
-<ul><li>Luciano Hammoe</li><li>Pablo E. Bragan</li></ul>
+<ul><li>Luciano Hammoe</li><li>Pablo E. Bragan</li>
+    <li>Mariano Greco</li>
+</ul>
 
 ## Crear el jar que contiene la aplicaci&oacute;n y sus dependencias
 ```bash
@@ -34,7 +36,7 @@ $ spark-submit \
   nba,spurs,ginobilli \
   -117.16,32.69,-66.97,48.98
 ```
-Se ejecutar&aacute; un proceso que no tiene fin y mientras se llenará la cola de Kafka.
+Se ejecutar&aacute; un proceso de recolecci&oacute;n de tweets por el tiempo fijado en el argumento, as&iacute; se llenar&aacute; la cola de Kafka.
 <br>Puede correrlo como background. Por ejemplo:
 ```bash
 $ spark-submit \

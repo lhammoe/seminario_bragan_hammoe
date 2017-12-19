@@ -19,7 +19,7 @@ object TweetsGenerator extends App {
          |Usage: TweetsGenerator <brokers> <topics> <outputPath> <savingInterval> <filtersTrack> <filtersLocations>
          |  <brokers> is a list of one or more Kafka brokers
          |  <topic> one kafka topic to produce to
-         |  <savingInterval> seconds to define creation file interval
+         |  <savingInterval> seconds to define write into kafka
          |  <filtersTrack> words to filter tweets, separated by comma.
          |  <filtersLocations> geo references: longitud,latitud. 2 points that represent a rectangule of the cover area separated by comma.
          |
@@ -35,7 +35,9 @@ object TweetsGenerator extends App {
        |Consuming tweets $brokers/$topic
     """.stripMargin)
 
-  val spark = SparkSession.builder.appName("Tweets:ETL").getOrCreate()
+  val spark = SparkSession.builder
+    .appName("Tweets:ETL")
+    .getOrCreate()
 
   val props = new Properties()
   props.put("bootstrap.servers", brokers)
@@ -69,9 +71,11 @@ object TweetsGenerator extends App {
     case e: Exception => twitterStream.stop()
   }
 
-  Thread.sleep(10000)
+  Thread.sleep(savingInterval.toInt+1000)
 
-//  twitterStream.stop()
-//  producer.close()
-//  spark.stop()
+
+
+  twitterStream.stop()
+  producer.close()
+  spark.stop()
 }
