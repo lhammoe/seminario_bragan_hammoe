@@ -45,7 +45,7 @@ $ spark-submit \
   target/scala-2.11/twitter-analysis-assembly-0.1.jar \
   kafka:9092 \
   tweets \
-  200 \
+  180000 \
   nba,spurs,ginobilli \
   -117.16,32.69,-66.97,48.98 \
   &

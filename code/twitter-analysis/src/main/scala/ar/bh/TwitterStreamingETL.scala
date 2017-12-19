@@ -164,5 +164,5 @@ object TwitterStreamingETL extends App {
   //  spark.sql("select * from avgPricing").show()   // interactively query in-memory table
 
   /*query.awaitTermination()*/
-  Thread.sleep(3000)
+
 }
