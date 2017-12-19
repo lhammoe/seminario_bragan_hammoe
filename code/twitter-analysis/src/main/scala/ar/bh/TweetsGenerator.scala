@@ -35,7 +35,9 @@ object TweetsGenerator extends App {
        |Consuming tweets $brokers/$topic
     """.stripMargin)
 
-  val spark = SparkSession.builder.appName("Tweets:ETL").getOrCreate()
+  val spark = SparkSession.builder
+    .appName("Tweets:ETL")
+    .getOrCreate()
 
   val props = new Properties()
   props.put("bootstrap.servers", brokers)

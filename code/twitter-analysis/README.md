@@ -1,7 +1,9 @@
 # ETL: Twitter Analysis
 
 <b>Alumnos:</b>
-<ul><li>Luciano Hammoe</li><li>Pablo E. Bragan</li></ul>
+<ul><li>Luciano Hammoe</li><li>Pablo E. Bragan</li>
+    <li>Mariano Greco</li>
+</ul>
 
 ## Crear el jar que contiene la aplicaci&oacute;n y sus dependencias
 ```bash

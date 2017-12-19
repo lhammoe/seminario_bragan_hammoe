@@ -22,7 +22,8 @@ object TwitterStreamingETL extends App {
   val Array(brokers, topics, path) = args
   val spark = SparkSession.
     builder.
-    appName("Twitter:StreamingETL").
+    //appName("Twitter:StreamingETL").
+    appName("Tweets:ETL").
     getOrCreate()
 
   // Create DataSet representing the stream of input lines from kafka
@@ -67,11 +68,12 @@ object TwitterStreamingETL extends App {
     withColumn("texto", $"text").
     writeStream.
     format("parquet").
+    partitionBy("texto").
     //partitionBy("year", "month", "day", "hour", "minute").
     option("startingOffsets", "earliest").
     option("checkpointLocation", "/dataset/checkpoint").
     option("path", path).
-    trigger(ProcessingTime("30 seconds")).
+    trigger(ProcessingTime("200 seconds")).
     start()
 
   //Thread.sleep(300000)
